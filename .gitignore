@@ -6,3 +6,6 @@
 *.ear
 /puzzles/nbproject/private/
 /puzzles/build/
+/NumberAddition/nbproject/private/
+/NumberAddition/build/
+/NumberAddition/dist/

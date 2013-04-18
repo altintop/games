@@ -9,27 +9,44 @@ package com.nail.domain;
  * @author nail
  */
 public class AlgoNode {
-    
+
     private AlgoNode parentNode;
     private int g;
     private int h;
-    private int f;
-    private Map map;
-    
-    public AlgoNode(Map map){
-        this.map = map;
+    private PuzzleMap map;
+
+    @Override
+    public int hashCode() {
+        return map.hashCode();
     }
-    
-    public AlgoNode(Map map, AlgoNode parentNode){
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (!(o instanceof AlgoNode)) {
+            return false;
+        }
+        AlgoNode ano = (AlgoNode) o;
+        return this.map.equals(ano.map);
+    }
+
+    public AlgoNode(PuzzleMap map) {
+        this.map = map;
+        calcHCoeff();
+    }
+
+    public AlgoNode(PuzzleMap map, AlgoNode parentNode) {
         this.map = map;
         this.parentNode = parentNode;
     }
 
-    public Map getMap() {
+    public PuzzleMap getMap() {
         return map;
     }
 
-    public void setMap(Map map) {
+    public void setMap(PuzzleMap map) {
         this.map = map;
     }
 
@@ -40,7 +57,7 @@ public class AlgoNode {
     public void setParentNode(AlgoNode parentNode) {
         this.parentNode = parentNode;
     }
-    
+
     public int getG() {
         return g;
     }
@@ -53,15 +70,25 @@ public class AlgoNode {
         return h;
     }
 
-    public void setH(int h) {
-        this.h = h;
-    }
-
     public int getF() {
-        return f;
+        return g + h;
     }
-
-    public void setF(int f) {
-        this.f = f;
+    
+    public void calcHCoeff(){
+        for(int i = 0; i < map.getBoardSize(); i++)
+            for(int j = 0; j < map.getBoardSize(); j++){
+                if(map.getBoard()[i][j].getNumber() != j + i*map.getBoardSize() + 1)
+                    this.h += 1;
+            }
+    }
+    
+    public void print(){
+        System.out.println("AlgoNode!");
+        for(int i = 0; i < map.getBoardSize(); i++){
+            for(int j = 0; j < map.getBoardSize(); j++){
+                System.out.print(String.valueOf(map.getBoard()[i][j].getNumber()) + " ");
+            }
+            System.out.print("\n");
+        }
     }
 }
